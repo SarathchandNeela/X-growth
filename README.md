@@ -1,6 +1,6 @@
 # AI Growth Engine for X, Facebook, and Instagram
 
-A production-ready blueprint and Python implementation for a **self-improving social growth system** that discovers viral patterns, rewrites content originally, schedules safely, tracks outcomes, and adapts strategy daily.
+A production-ready blueprint and Python implementation for a **self-improving social growth system** that discovers viral patterns, rewrites content originally, schedules safely, tracks outcomes, adapts strategy daily, and now includes **API credential management + budget-aware cost control**.
 
 ## Application architecture
 
@@ -16,10 +16,11 @@ A production-ready blueprint and Python implementation for a **self-improving so
         └───────┬────────┘    └──────┬─────────┘
                 │                     │
         ┌───────▼─────────────────────▼─────────┐
-        │ Scheduling & Safety Layer             │
+        │ Scheduling + Safety + Budget Layer    │
         │ - randomized timing                   │
         │ - cadence/rate limit control          │
         │ - anti-ban guardrails                 │
+        │ - budget throttle / projected spend   │
         └───────┬───────────────────────────────┘
                 │
         ┌───────▼─────────┐
@@ -44,23 +45,46 @@ Use official APIs only (compliance-first):
 - Maintain token vault, request throttling, and endpoint-level retry policies.
 - Normalize all inbound signals into `ViralSignal` and all outcomes into `PostMetrics`.
 
+## Credentials and runtime configuration
+
+Configuration is loaded from environment variables:
+
+- `X_APP_ID`, `X_APP_SECRET`, `X_ACCESS_TOKEN`
+- `FACEBOOK_APP_ID`, `FACEBOOK_APP_SECRET`, `FACEBOOK_ACCESS_TOKEN`
+- `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`, `INSTAGRAM_ACCESS_TOKEN`
+- `MONTHLY_BUDGET_USD` (default: `250`)
+- `BUDGET_WARNING_THRESHOLD` (default: `0.8`)
+
+If credentials are missing, the package still runs in mock mode for local testing.
+
+## Does it include API key costing?
+
+Yes. The package now includes a baseline cost-control layer:
+
+- `CostManager` estimates spend for discovery/publish usage events.
+- Monthly budget threshold triggers throttling before overspending.
+- Pipeline checks projected cost before executing each API-like action.
+
+> Note: price cards in code are default placeholders for planning. Replace with your real vendor pricing and account-tier assumptions.
+
 ## Core logic pseudocode
 
 ```text
 loop hourly:
+  if budget_warning_triggered: throttle
   signals = discover_trending_content(all platforms)
   high_velocity = rank_by_engagement_velocity(signals)
   selected = diversify_topics_and_formats(high_velocity)
 
   drafts = []
   for signal in selected:
-    tone = current_strategy.tone_for(signal.platform)
-    draft = rewrite_original(signal, tone, platform_rules)
-    if originality_check(draft) and safety_check(draft):
-      drafts.append(draft)
+    if can_afford(next_discovery_call):
+      draft = rewrite_original(signal, tone, platform_rules)
+      if originality_check(draft) and safety_check(draft):
+        drafts.append(draft)
 
   queue = build_randomized_schedule(drafts, rate_limits, cadence_rules)
-  publish(queue)
+  publish_affordable_posts(queue)
 
 loop daily:
   metrics = collect_post_metrics(last_24h)
@@ -117,11 +141,14 @@ Tones supported: curious, bold, slightly controversial, inspirational, opinionat
 - `src/growth_engine/models.py`: core domain models and scoring.
 - `src/growth_engine/connectors.py`: connector interface + API mapping.
 - `src/growth_engine/engine.py`: discovery, rewrite, scheduling, adaptation logic.
+- `src/growth_engine/config.py`: API key + budget configuration loader.
+- `src/growth_engine/costs.py`: usage event cost estimation and budget guardrails.
+- `src/growth_engine/pipeline.py`: hourly and daily orchestration loops.
 - `src/growth_engine/prompts.py`: reusable prompt templates.
 - `src/growth_engine/main.py`: runnable blueprint output.
 
 ## Run
 
 ```bash
-python -m growth_engine.main
+PYTHONPATH=src python -m growth_engine.main
 ```
