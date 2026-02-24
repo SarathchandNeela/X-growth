@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dealguys - Best Deals, Coupons & Freebies</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="logo" href="#">Deal<span>guys</span></a>
+      <form id="search-form" class="search-wrap" role="search">
+        <input id="search-input" type="search" placeholder="Search deals, stores, or tags..." />
+      </form>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <div class="container nav-list" id="category-filters">
+      <button class="chip active" data-category="all">All</button>
+      <button class="chip" data-category="electronics">Electronics</button>
+      <button class="chip" data-category="fashion">Fashion</button>
+      <button class="chip" data-category="food">Food</button>
+      <button class="chip" data-category="travel">Travel</button>
+      <button class="chip" data-category="shopping">Shopping</button>
+      <button class="chip" data-category="freebie">Freebie</button>
+    </div>
+  </nav>
+
+  <main class="container page">
+    <section class="feed-column">
+      <div class="feed-header">
+        <h1>Top Deals Today</h1>
+        <p>Handpicked offers, promo codes, and freebies updated daily.</p>
+      </div>
+
+      <div id="deal-feed" class="deal-feed"></div>
+      <p id="empty-state" class="empty-state">No deals found. Try a different search or category.</p>
+    </section>
+
+    <aside class="sidebar">
+      <section class="widget">
+        <h2>Submit a Deal</h2>
+        <form id="deal-form" class="deal-form">
+          <input name="title" type="text" placeholder="Deal title" required />
+          <input name="store" type="text" placeholder="Store name" required />
+          <input name="url" type="url" placeholder="Offer URL" required />
+          <input name="coupon" type="text" placeholder="Coupon code (optional)" />
+          <select name="category" required>
+            <option value="">Category</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="food">Food</option>
+            <option value="travel">Travel</option>
+            <option value="shopping">Shopping</option>
+            <option value="freebie">Freebie</option>
+          </select>
+          <textarea name="description" rows="3" placeholder="Short deal description" required></textarea>
+          <button type="submit">Post Deal</button>
+        </form>
+      </section>
+
+      <section class="widget">
+        <h2>Popular Stores</h2>
+        <ul class="store-list" id="popular-stores"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <template id="deal-template">
+    <article class="deal-card">
+      <div class="deal-top">
+        <div>
+          <p class="meta"></p>
+          <h3></h3>
+        </div>
+        <span class="badge"></span>
+      </div>
+      <p class="description"></p>
+      <div class="coupon-row">
+        <span class="coupon-label">Coupon</span>
+        <code class="coupon"></code>
+      </div>
+      <div class="tags"></div>
+      <div class="actions">
+        <a class="cta" target="_blank" rel="noopener noreferrer">Grab Deal</a>
+        <button class="ghost delete" type="button">Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

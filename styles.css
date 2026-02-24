@@ -1,0 +1,179 @@
+:root {
+  --bg: #f4f5f7;
+  --surface: #fff;
+  --text: #1d2533;
+  --muted: #607085;
+  --border: #dce3ee;
+  --brand: #ff6b00;
+  --brand-soft: #fff1e6;
+  --chip: #eef3ff;
+  --chip-text: #3450a3;
+  --danger: #ca3434;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+}
+
+body.dark {
+  --bg: #121721;
+  --surface: #1a2231;
+  --text: #e8edf7;
+  --muted: #9ca9bc;
+  --border: #2d384d;
+  --brand-soft: #2e221b;
+  --chip: #27324a;
+  --chip-text: #b8cbff;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); }
+
+.container { width: min(1180px, 95vw); margin: 0 auto; }
+
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar-inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0;
+}
+.logo { text-decoration: none; color: var(--text); font-weight: 900; font-size: 1.5rem; }
+.logo span { color: var(--brand); }
+
+.search-wrap input {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+}
+.theme-toggle {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  cursor: pointer;
+  padding: 0.5rem 0.65rem;
+}
+
+.main-nav {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.7rem 0;
+}
+.chip {
+  border: 0;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--chip-text);
+  padding: 0.4rem 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.chip.active { background: var(--brand); color: #fff; }
+
+.page {
+  display: grid;
+  grid-template-columns: 1.8fr 1fr;
+  gap: 1rem;
+  padding: 1rem 0 1.6rem;
+}
+.feed-header h1 { margin: 0; font-size: 1.8rem; }
+.feed-header p { margin: 0.3rem 0 1rem; color: var(--muted); }
+
+.deal-feed { display: grid; gap: 0.9rem; }
+.deal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem;
+}
+.deal-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+.meta { color: var(--muted); margin: 0; font-size: 0.85rem; }
+h3 { margin: 0.2rem 0 0; }
+.badge {
+  align-self: flex-start;
+  background: var(--brand-soft);
+  color: var(--brand);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.description { color: var(--muted); margin: 0.5rem 0 0.7rem; }
+.coupon-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.5rem;
+}
+.coupon-label { font-size: 0.75rem; color: var(--muted); }
+.coupon { font-weight: 800; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.7rem 0; }
+.tag {
+  background: var(--chip);
+  color: var(--chip-text);
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  font-size: 0.73rem;
+}
+.actions { display: flex; gap: 0.5rem; }
+.cta, .ghost, .deal-form button {
+  border: 0;
+  border-radius: 9px;
+  padding: 0.5rem 0.7rem;
+  font-weight: 700;
+}
+.cta {
+  text-decoration: none;
+  background: var(--brand);
+  color: #fff;
+}
+.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+}
+.delete { color: var(--danger); }
+
+.sidebar { display: grid; gap: 0.9rem; align-content: start; }
+.widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.85rem;
+}
+.widget h2 { margin: 0 0 0.7rem; font-size: 1rem; }
+.deal-form { display: grid; gap: 0.55rem; }
+.deal-form input, .deal-form select, .deal-form textarea {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0.55rem 0.65rem;
+  background: var(--bg);
+  color: var(--text);
+}
+.deal-form button { background: var(--brand); color: #fff; cursor: pointer; }
+.store-list { margin: 0; padding-left: 1.1rem; color: var(--muted); display: grid; gap: 0.3rem; }
+.empty-state { color: var(--muted); }
+
+@media (max-width: 900px) {
+  .page { grid-template-columns: 1fr; }
+}
